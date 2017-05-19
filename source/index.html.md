@@ -147,8 +147,6 @@ programUserId|body|Number|false|Pet object that needs to be added to the store
 flGroupByDevice|body|Number|false|group by device, default is 0.
 flShowTax|body|Number|false|Show Tax amount, defalut is 1.
 
-
-
 ### Response
 
 <aside class="success">
@@ -168,7 +166,6 @@ store_id|body|String|Store ID
 store_name|body|String|Store Name
 device_id|body|String|Device ID
 device_name|body|String|Device Name
-
 
 ## Get Hourly Totals Report
 API PATH = [/hourlyTotals](https://tr4ns2.tr4ns.com/TransactorAPI-SpringBoot/api/2/kupid/hourlyTotals)
@@ -225,8 +222,6 @@ programUserId|body|Number|false|Pet object that needs to be added to the store
 flGroupByDevice|body|Number|false|group by device, default is 0.
 flShowTax|body|Number|false|Show Tax amount, defalut is 1.
 
-
-
 ### Response
 
 <aside class="success">
@@ -247,4 +242,16 @@ store_name|body|String|Store Name
 device_id|body|String|Device ID
 device_name|body|String|Device Name
 
+## Get Operator Totals Report
 
+
+## Get Payment Type Totals Report
+
+
+## Get Product Top N Report
+
+
+## Get Category Top N Report
+
+
+## Get SubCategory Top N Report
