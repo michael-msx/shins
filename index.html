@@ -78,7 +78,7 @@
     All API sevice need authentication token to use, You need replese 'username', 'password', 'moduleCode' to get your auth token code. 
     You must replace `api_token` with your personal API auth token code for the rest services. 
 </aside>
-<p>Base URL on Test Server= <a href="https://tr4ns2.tr4ns.com/TransactorAPI-SpringBoot/api/2/">https://tr4ns2.tr4ns.com/TransactorAPI-SpringBoot/api/2/kupid</a></p>
+<p>Base URL on Test Server= <a href="https://tr4ns2.tr4ns.com/TransactorAPI-SpringBoot/api/2/">https://tr4ns2.tr4ns.com/TransactorAPI-SpringBoot/api/2/</a></p>
 <h1 id="authentication">Authentication</h1>
 <blockquote>
 <p>Authentication Example</p>
@@ -177,12 +177,55 @@
 <aside class="notice">
     This auth token code is required for all other service in this package. 
 </aside>
-<h1 id="kpuid-dashboard-report">KPUID Dashboard Report</h1>
-<p>This package includes all kupid dashboard report related services.</p>
+<h1 id="kpuid-report-[-kupid]">KPUID Report [/kupid]</h1>
+<p>This package includes all kupid reporting related services.</p>
 <h2 id="get-pos-totals-report">Get POS Totals Report</h2>
+<p>API PATH = <a href="https://tr4ns2.tr4ns.com/TransactorAPI-SpringBoot/api/2/kupid/posTotals">/posTotals</a></p>
 <blockquote>
-<p>Code samples</p>
+<p>GET POS Totals Report</p>
 </blockquote>
+<pre class="highlight tab-http--request"><code><span class="hljs-keyword">POST</span> <span class="hljs-string">https://tr4ns2.tr4ns.com/TransactorAPI-SpringBoot/api/2/kupid/posTotals</span> HTTP/1.1
+<span class="hljs-attribute">Host</span>: tr4ns2.tr4ns.com
+<span class="hljs-attribute">Content-Type</span>: application/json
+<span class="hljs-attribute">ModuleCode</span>: &lt;Your_ModuleCode&gt;
+<span class="hljs-attribute">Authorization</span>: &lt;Your_Token&gt;
+<span class="hljs-attribute">Accept</span>: application/json    
+
+<span class="accesslog">Body:
+{
+	<span class="hljs-string">"programId"</span>:<span class="hljs-string">"262"</span>,
+	<span class="hljs-string">"startDate"</span>:<span class="hljs-string">"2017-04-02 12:00"</span>,
+	<span class="hljs-string">"endDate"</span>:<span class="hljs-string">"2017-05-04 12:00"</span>,
+	<span class="hljs-string">"deviceIds"</span>:<span class="hljs-string">[37951]</span>,
+	<span class="hljs-string">"programUserId"</span>:<span class="hljs-string">""</span>,
+	<span class="hljs-string">"flGroupByDevice"</span>:<span class="hljs-string">"0"</span>,
+	<span class="hljs-string">"flShowTax"</span>:<span class="hljs-string">"1"</span>
+}
+
+</span></code></pre>
+<pre class="highlight tab-http--response"><code><span class="hljs-attribute">Body:
+{
+  "_links"</span>: {
+    "<span class="hljs-attribute">self"</span>: {
+      "<span class="hljs-attribute">href"</span>: "https://tr4ns2.tr4ns.com/TransactorAPI-SpringBoot/api/2/kupid/hourlyTotals"
+    }
+  },
+  "<span class="hljs-attribute">_embedded"</span>: {
+    "<span class="hljs-attribute">data"</span>: [
+      {
+        "<span class="hljs-attribute">number_of_transactions"</span>: "3",
+        "<span class="hljs-attribute">discounts_amount"</span>: "0",
+        "<span class="hljs-attribute">gross_sales_amount"</span>: "339.96",
+        "<span class="hljs-attribute">net_sales_amount"</span>: "339.96",
+        "<span class="hljs-attribute">loyalty_value_amount"</span>: "0",
+        "<span class="hljs-attribute">credit_value_amount"</span>: "0",
+        "<span class="hljs-attribute">tax_amount"</span>: "31.3018"
+      }
+    ]
+  }
+}
+
+<span class="undefined"></span></code></pre>
 <h3 id="parameters">Parameters</h3>
 <table>
 <thead>
@@ -196,11 +239,321 @@
 </thead>
 <tbody>
 <tr>
+<td>programId</td>
 <td>body</td>
-<td>body</td>
-<td>Pet</td>
+<td>Nmuber</td>
 <td>true</td>
+<td>Your Program Id.</td>
+</tr>
+<tr>
+<td>startDate</td>
+<td>body</td>
+<td>Date</td>
+<td>true</td>
+<td>The start date for your query. format=&quot;yyyy-MM-dd HH:mm&quot;</td>
+</tr>
+<tr>
+<td>endDate</td>
+<td>body</td>
+<td>Date</td>
+<td>true</td>
+<td>The end date for your query. format=&quot;yyyy-MM-dd HH:mm&quot;</td>
+</tr>
+<tr>
+<td>deviceIds</td>
+<td>body</td>
+<td>ARRAY</td>
+<td>false</td>
+<td>The devices which include in this query. If null, then all devices would be included.</td>
+</tr>
+<tr>
+<td>programUserId</td>
+<td>body</td>
+<td>Number</td>
+<td>false</td>
 <td>Pet object that needs to be added to the store</td>
+</tr>
+<tr>
+<td>flGroupByDevice</td>
+<td>body</td>
+<td>Number</td>
+<td>false</td>
+<td>group by device, default is 0.</td>
+</tr>
+<tr>
+<td>flShowTax</td>
+<td>body</td>
+<td>Number</td>
+<td>false</td>
+<td>Show Tax amount, defalut is 1.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="response">Response</h3>
+<aside class="success">
+    If the flGroupByDevice parameter in request is 0, then store_id, store_name, device_id and device_name will be hiden in response message.
+</aside>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>In</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>number_of_transactions</td>
+<td>body</td>
+<td>String</td>
+<td>The amount of transactions</td>
+</tr>
+<tr>
+<td>discounts_amount</td>
+<td>body</td>
+<td>String</td>
+<td>The amount of discounts</td>
+</tr>
+<tr>
+<td>gross_sales_amount</td>
+<td>body</td>
+<td>String</td>
+<td>The gross sales amount</td>
+</tr>
+<tr>
+<td>net_sales_amount</td>
+<td>body</td>
+<td>String</td>
+<td>The net sales amount</td>
+</tr>
+<tr>
+<td>loyalty_value_amount</td>
+<td>body</td>
+<td>String</td>
+<td>The loyalty value amount</td>
+</tr>
+<tr>
+<td>credit_value_amount</td>
+<td>body</td>
+<td>String</td>
+<td>The credit value amount</td>
+</tr>
+<tr>
+<td>tax_amount</td>
+<td>body</td>
+<td>String</td>
+<td>The tax amount</td>
+</tr>
+<tr>
+<td>store_id</td>
+<td>body</td>
+<td>String</td>
+<td>Store ID</td>
+</tr>
+<tr>
+<td>store_name</td>
+<td>body</td>
+<td>String</td>
+<td>Store Name</td>
+</tr>
+<tr>
+<td>device_id</td>
+<td>body</td>
+<td>String</td>
+<td>Device ID</td>
+</tr>
+<tr>
+<td>device_name</td>
+<td>body</td>
+<td>String</td>
+<td>Device Name</td>
+</tr>
+</tbody>
+</table>
+<h2 id="get-hourly-totals-report">Get Hourly Totals Report</h2>
+<p>API PATH = <a href="https://tr4ns2.tr4ns.com/TransactorAPI-SpringBoot/api/2/kupid/hourlyTotals">/hourlyTotals</a></p>
+<blockquote>
+<p>GET Hourly Totals Report</p>
+</blockquote>
+<pre class="highlight tab-http--request"><code><span class="hljs-keyword">POST</span> <span class="hljs-string">https://tr4ns2.tr4ns.com/TransactorAPI-SpringBoot/api/2/kupid/hourlyTotals</span> HTTP/1.1
+<span class="hljs-attribute">Host</span>: tr4ns2.tr4ns.com
+<span class="hljs-attribute">Content-Type</span>: application/json
+<span class="hljs-attribute">ModuleCode</span>: &lt;Your_ModuleCode&gt;
+<span class="hljs-attribute">Authorization</span>: &lt;Your_Token&gt;
+<span class="hljs-attribute">Accept</span>: application/json    
+
+<span class="accesslog">Body:
+{
+	<span class="hljs-string">"programId"</span>:<span class="hljs-string">"262"</span>,
+	<span class="hljs-string">"startDate"</span>:<span class="hljs-string">"2017-04-02 12:00"</span>,
+	<span class="hljs-string">"endDate"</span>:<span class="hljs-string">"2017-05-04 12:00"</span>,
+	<span class="hljs-string">"deviceIds"</span>:<span class="hljs-string">[37951]</span>,
+	<span class="hljs-string">"programUserId"</span>:<span class="hljs-string">""</span>,
+	<span class="hljs-string">"flGroupByDevice"</span>:<span class="hljs-string">"0"</span>,
+	<span class="hljs-string">"flShowTax"</span>:<span class="hljs-string">"1"</span>
+}
+
+</span></code></pre>
+<pre class="highlight tab-http--response"><code><span class="hljs-attribute">Body:
+{
+  "_links"</span>: {
+    "<span class="hljs-attribute">self"</span>: {
+      "<span class="hljs-attribute">href"</span>: "https://tr4ns2.tr4ns.com/TransactorAPI-SpringBoot/api/2/kupid/hourlyTotals"
+    }
+  },
+  "<span class="hljs-attribute">_embedded"</span>: {
+    "<span class="hljs-attribute">data"</span>: [
+      {
+        "<span class="hljs-attribute">number_of_transactions"</span>: "3"
+      }
+    ]
+  }
+}
+
+<span class="undefined"></span></code></pre>
+<h3 id="parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>In</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>programId</td>
+<td>body</td>
+<td>Nmuber</td>
+<td>true</td>
+<td>Your Program Id.</td>
+</tr>
+<tr>
+<td>startDate</td>
+<td>body</td>
+<td>Date</td>
+<td>true</td>
+<td>The start date for your query. format=&quot;yyyy-MM-dd HH:mm&quot;</td>
+</tr>
+<tr>
+<td>endDate</td>
+<td>body</td>
+<td>Date</td>
+<td>true</td>
+<td>The end date for your query. format=&quot;yyyy-MM-dd HH:mm&quot;</td>
+</tr>
+<tr>
+<td>deviceIds</td>
+<td>body</td>
+<td>ARRAY</td>
+<td>false</td>
+<td>The devices which include in this query. If null, then all devices would be included.</td>
+</tr>
+<tr>
+<td>programUserId</td>
+<td>body</td>
+<td>Number</td>
+<td>false</td>
+<td>Pet object that needs to be added to the store</td>
+</tr>
+<tr>
+<td>flGroupByDevice</td>
+<td>body</td>
+<td>Number</td>
+<td>false</td>
+<td>group by device, default is 0.</td>
+</tr>
+<tr>
+<td>flShowTax</td>
+<td>body</td>
+<td>Number</td>
+<td>false</td>
+<td>Show Tax amount, defalut is 1.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="response">Response</h3>
+<aside class="success">
+    If the flGroupByDevice parameter in request is 0, then store_id, store_name, device_id and device_name will be hiden in response message.
+</aside>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>In</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>number_of_transactions</td>
+<td>body</td>
+<td>String</td>
+<td>The amount of transactions</td>
+</tr>
+<tr>
+<td>discounts_amount</td>
+<td>body</td>
+<td>String</td>
+<td>The amount of discounts</td>
+</tr>
+<tr>
+<td>gross_sales_amount</td>
+<td>body</td>
+<td>String</td>
+<td>The gross sales amount</td>
+</tr>
+<tr>
+<td>net_sales_amount</td>
+<td>body</td>
+<td>String</td>
+<td>The net sales amount</td>
+</tr>
+<tr>
+<td>loyalty_value_amount</td>
+<td>body</td>
+<td>String</td>
+<td>The loyalty value amount</td>
+</tr>
+<tr>
+<td>credit_value_amount</td>
+<td>body</td>
+<td>String</td>
+<td>The credit value amount</td>
+</tr>
+<tr>
+<td>tax_amount</td>
+<td>body</td>
+<td>String</td>
+<td>The tax amount</td>
+</tr>
+<tr>
+<td>store_id</td>
+<td>body</td>
+<td>String</td>
+<td>Store ID</td>
+</tr>
+<tr>
+<td>store_name</td>
+<td>body</td>
+<td>String</td>
+<td>Store Name</td>
+</tr>
+<tr>
+<td>device_id</td>
+<td>body</td>
+<td>String</td>
+<td>Device ID</td>
+</tr>
+<tr>
+<td>device_name</td>
+<td>body</td>
+<td>String</td>
+<td>Device Name</td>
 </tr>
 </tbody>
 </table>

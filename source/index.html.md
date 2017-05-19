@@ -81,9 +81,9 @@ token|body|String|Your Project API Auth Token code|
     This auth token code is required for all other service in this package. 
 </aside>
 
-# KPUID Dashboard Report[/kupid]
+# KPUID Report [/kupid]
 
-This package includes all kupid dashboard report related services.
+This package includes all kupid reporting related services.
 
 
 ## Get POS Totals Report
@@ -139,20 +139,112 @@ Body:
 
 Parameter|In|Type|Required|Description
 ---|---|---|---|---|
-body|body|Pet|true|Pet object that needs to be added to the store
+programId|body|Nmuber|true|Your Program Id.
+startDate|body|Date|true|The start date for your query. format="yyyy-MM-dd HH:mm"
+endDate|body|Date|true|The end date for your query. format="yyyy-MM-dd HH:mm"
+deviceIds|body|ARRAY|false|The devices which include in this query. If null, then all devices would be included.
+programUserId|body|Number|false|Pet object that needs to be added to the store
+flGroupByDevice|body|Number|false|group by device, default is 0.
+flShowTax|body|Number|false|Show Tax amount, defalut is 1.
 
 
 
+### Response
+
+<aside class="success">
+    If the flGroupByDevice parameter in request is 0, then store_id, store_name, device_id and device_name will be hiden in response message.
+</aside>
+
+Parameter|In|Type|Description
+---|---|---|---|---|
+number_of_transactions|body|String|The amount of transactions
+discounts_amount|body|String|The amount of discounts
+gross_sales_amount|body|String|The gross sales amount
+net_sales_amount|body|String|The net sales amount
+loyalty_value_amount|body|String|The loyalty value amount
+credit_value_amount|body|String|The credit value amount
+tax_amount|body|String|The tax amount
+store_id|body|String|Store ID
+store_name|body|String|Store Name
+device_id|body|String|Device ID
+device_name|body|String|Device Name
 
 
-    private String number_of_transactions;
-    private String discounts_amount;
-    private String gross_sales_amount;
-    private String net_sales_amount;
-    private String loyalty_value_amount;
-    private String credit_value_amount;
-    private String tax_amount;
-    private String store_id;
-    private String store_name;
-    private String device_id;
-    private String device_name;
+## Get Hourly Totals Report
+API PATH = [/hourlyTotals](https://tr4ns2.tr4ns.com/TransactorAPI-SpringBoot/api/2/kupid/hourlyTotals)
+
+> GET Hourly Totals Report
+````http--request
+POST https://tr4ns2.tr4ns.com/TransactorAPI-SpringBoot/api/2/kupid/hourlyTotals HTTP/1.1
+Host: tr4ns2.tr4ns.com
+Content-Type: application/json
+ModuleCode: <Your_ModuleCode>
+Authorization: <Your_Token>
+Accept: application/json    
+
+Body:
+{
+	"programId":"262",
+	"startDate":"2017-04-02 12:00",
+	"endDate":"2017-05-04 12:00",
+	"deviceIds":[37951],
+	"programUserId":"",
+	"flGroupByDevice":"0",
+	"flShowTax":"1"
+}
+
+````
+
+````http--response
+Body:
+{
+  "_links": {
+    "self": {
+      "href": "https://tr4ns2.tr4ns.com/TransactorAPI-SpringBoot/api/2/kupid/hourlyTotals"
+    }
+  },
+  "_embedded": {
+    "data": [
+      {
+        "number_of_transactions": "3"
+      }
+    ]
+  }
+}
+
+````
+### Parameters
+
+Parameter|In|Type|Required|Description
+---|---|---|---|---|
+programId|body|Nmuber|true|Your Program Id.
+startDate|body|Date|true|The start date for your query. format="yyyy-MM-dd HH:mm"
+endDate|body|Date|true|The end date for your query. format="yyyy-MM-dd HH:mm"
+deviceIds|body|ARRAY|false|The devices which include in this query. If null, then all devices would be included.
+programUserId|body|Number|false|Pet object that needs to be added to the store
+flGroupByDevice|body|Number|false|group by device, default is 0.
+flShowTax|body|Number|false|Show Tax amount, defalut is 1.
+
+
+
+### Response
+
+<aside class="success">
+    If the flGroupByDevice parameter in request is 0, then store_id, store_name, device_id and device_name will be hiden in response message.
+</aside>
+
+Parameter|In|Type|Description
+---|---|---|---|---|
+number_of_transactions|body|String|The amount of transactions
+discounts_amount|body|String|The amount of discounts
+gross_sales_amount|body|String|The gross sales amount
+net_sales_amount|body|String|The net sales amount
+loyalty_value_amount|body|String|The loyalty value amount
+credit_value_amount|body|String|The credit value amount
+tax_amount|body|String|The tax amount
+store_id|body|String|Store ID
+store_name|body|String|Store Name
+device_id|body|String|Device ID
+device_name|body|String|Device Name
+
+
